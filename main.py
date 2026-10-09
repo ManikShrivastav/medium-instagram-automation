@@ -28,15 +28,23 @@ class ImageParser(HTMLParser):
                 self.images.append(src)
 
 
-def get_url(url, data=None):
+def get_url(url, data=None, method=None):
+    method = method or ("POST" if data is not None else "GET")
     encoded = None
+
     if data is not None:
-        encoded = urllib.parse.urlencode(data).encode()
+        if method == "GET":
+            url += ("&" if "?" in url else "?") + urllib.parse.urlencode(data)
+        else:
+            encoded = urllib.parse.urlencode(data).encode()
+
     request = urllib.request.Request(
         url,
         data=encoded,
+        method=method,
         headers={"User-Agent": "MediumInstagramBot/1.0"}
     )
+
     with urllib.request.urlopen(request, timeout=30) as response:
         return response.read()
 
@@ -105,7 +113,8 @@ def publish_instagram(article):
             "image_url": image_url,
             "caption": caption,
             "access_token": token,
-        }
+        },
+        method="GET"
     ))
 
     container_id = container.get("id")
