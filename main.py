@@ -12,7 +12,7 @@ from pathlib import Path
 FEED_URL = "https://medium.com/feed/@manikshrivastav36"
 STATE_FILE = Path("processed.json")
 API_VERSION = os.getenv("META_API_VERSION", "v22.0")
-GRAPH_URL = f"https://graph.facebook.com/{API_VERSION}"
+GRAPH_URL = f"https://graph.instagram.com/{API_VERSION}"
 
 
 class ImageParser(HTMLParser):
